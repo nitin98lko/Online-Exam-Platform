@@ -1,0 +1,53 @@
+h1{
+    color:blueviolet;
+}
+.choice{
+    padding: 20px;
+    background-color: rgb(167, 225, 225);
+    margin: auto;
+    width: 50%;
+}
+.choice textarea{
+    padding: 2px 20px;
+    width: 100%;
+    height: 40%;
+}
+.choice table{
+    padding: 2px 20px;
+    margin: auto;
+    width: 50%;
+}
+
+.option{
+    padding: 2px 20px;
+    margin: auto;
+    width: 50%;
+}
+ .submit{   
+    margin-bottom: 20px;
+    color: rgb(54, 62, 54);
+    background-color: rgb(113, 225, 91);
+    padding: 5px 25px;
+}
+#header{
+    background-color: rgb(231, 196, 183);
+    padding: 40px;
+    text-align: center;
+    color: hotpink;
+font-size: x-large;}
+#footer{
+    padding: 20px;
+    background-color: rgb(154, 152, 152);
+}
+.qid{
+    padding: 20px;
+    background-color: blue;
+    color: paleturquoise;
+}
+.get_option{
+  margin: 20px; 
+   
+}
+.option_content{
+    background-color: orchid;
+}
