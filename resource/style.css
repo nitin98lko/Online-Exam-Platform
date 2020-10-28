@@ -1,43 +1,43 @@
 h1{
     color:blueviolet;
 }
-.choice{
+.container{
+    border: 3px solid green;
     padding: 20px;
-    background-color: rgb(167, 225, 225);
-    margin: auto;
-    width: 50%;
-}
-.choice textarea{
-    padding: 2px 20px;
-    width: 100%;
-    height: 40%;
-}
-.choice table{
-    padding: 2px 20px;
-    margin: auto;
-    width: 50%;
+    background-color: rgb(167, 225, 192);
+    margin: 20px;
+  
 }
 
-.option{
+.container textarea{
+    margin: 30px 0;
+    width: 100%;
+    height:120px;
+}
+.container table{
+    text-align: center;
     padding: 2px 20px;
     margin: auto;
     width: 50%;
+    margin-bottom: 40px;
 }
- .submit{   
-    margin-bottom: 20px;
+
+.submit{   
+     position: relative;
+    left: 46%;
     color: rgb(54, 62, 54);
     background-color: rgb(113, 225, 91);
     padding: 5px 25px;
 }
 #header{
     background-color: rgb(231, 196, 183);
-    padding: 40px;
+    padding: 1px;
     text-align: center;
     color: hotpink;
-font-size: x-large;}
+    font-size: x-large;}
 #footer{
-    padding: 20px;
-    background-color: rgb(154, 152, 152);
+    padding: 2px;
+    background-color: rgb(143, 143, 143);
 }
 .qid{
     padding: 20px;
@@ -50,4 +50,53 @@ font-size: x-large;}
 }
 .option_content{
     background-color: orchid;
+}
+
+body{
+    background-color: rgb(190, 192, 192);
+}
+.nav_box{
+    padding: 10px;
+    background-color: rgb(240, 143, 140);
+}
+.back{
+    padding: 10px 30px;
+    background-color: rgb(235, 14, 14);
+}
+.next{
+    padding: 10px 30px;
+    background-color: rgb(7, 255, 127);
+    float: right;
+}
+#nav_ques{
+    color: rgb(54, 62, 54);
+    text-align: center;
+}
+#finish{
+    background-color: rgb(7, 37, 231);
+    margin-bottom: 20px;
+    margin-left: 20px;
+    color: rgb(230, 240, 230);
+    padding: 5px 25px;
+}
+#container_center {
+    text-align: center;
+    color: royalblue;
+    margin: auto;
+    width: 50%;
+
+}
+img{
+    width: 500px;
+}
+#profile{
+    background-color: salmon;
+}
+#profile img{
+    width: 100px;
+    display: inline;
+}
+#profile h1{
+    float: right;
+    display: inline;
 }

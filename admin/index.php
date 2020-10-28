@@ -4,74 +4,54 @@ include('../resource/config.php');
 include('../resource/footer.php');
 include('../resource/header.php');
 
-
 $errors = array();
-if (isset($_POST['submit'])) {
+if (isset($_POST['create'])) {
+    // sql to create quiz table
+    $quiz_name = $_POST['quiz_name'];
 
-     $question = isset($_POST['question']) ? $_POST['question'] : '';
+    $sql = "CREATE TABLE " . $quiz_name . " (
+    qid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    question text(255) NOT NULL,
+    option_a text(255) NOT NULL,
+    option_b text(255) NOT NULL,
+    option_c text(255) NOT NULL,
+    option_d text(255) NOT NULL,
+    answer text(255) NOT NULL
+    )";
 
-     $option_a = isset($_POST['option_a']) ? $_POST['option_a'] : '';
-     $option_b = isset($_POST['option_b']) ? $_POST['option_b'] : '';
-     $option_c = isset($_POST['option_c']) ? $_POST['option_c'] : '';
-     $option_d = isset($_POST['option_d']) ? $_POST['option_d'] : '';
+    if ($conn->query($sql) === TRUE) {
+        // echo "Table MyGuests created successfully";
 
-     $answer = isset($_POST['answer']) ? $_POST['answer'] : '';
+        //inserting in quiz_list db
+       echo'features'. $nav_handler = isset($_POST['nav_handler']) ? $_POST['nav_handler'] : 'false';
 
-    ///////////////////insert/////////////////////////////
-    if (sizeof($errors) == 0) {
-        $sql = "INSERT INTO questions (question,option_a,option_b,option_c,option_d,answer)VALUES
-        ('" . $question . "', '" . $option_a . "', '" . $option_b . "', '" . $option_c . "', '" . $option_d . "', '" . $answer . "')";
+        $sql = "INSERT INTO quiz_list (quiz_name,feature)VALUES
+        ('" . $quiz_name . "', '" . $nav_handler . "')";
 
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";
         } else {
-            $errors[] = array('inputs' => 'forms', 'msg' => $conn->error);
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error in inserting: " . $sql . "<br>" . $conn->error;
         }
+
+    } else {
+        echo "Error creating table: " . $conn->error;
     }
-    ///////////////////insert/////////////////////////////
-} //isset_submit
-$conn->close();
-head();
+    $conn->close();
+} //
 ?>
 
-
-    <h1>Register Your questions here</h1>
-    <form action="" method="POST">
-        <div class="choice">
-            <textarea class="question" name="question"></textarea>
-            <table>
-
-                <tr>
-                    <td>
-                        option A:<input name="option_a" class="option">
-                    </td>
-                    <td>
-                        option B:<input name="option_b" class="option">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        option C:<input name="option_c" class="option">
-                    </td>
-                    <td>
-                        option D:<input name="option_d" class="option">
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        answer key:<input name="answer" class="option">
-                    </td>
-                    <td>
-                        <input type="submit" name="submit" class="submit">
-                    </td>
-                </tr>
-
-            </table>
+<h1>Create Your Quiz</h1>
+<form action="" method="POST">
+    <div class="container">
+        <label for="quiz_name">Quiz Name: <input type="text" name="quiz_name" required></label>
+        <div class="checkbox">
+            Enable Navigation Features : <input name="nav_handler" type="checkbox" value="true">
         </div>
-    </form>
-    <?php
-    echo footer();
-    ?>
+        <input type="submit" name="create" value="create">
+
+    </div>
+</form>
+<?php
+echo footer();
+?>
