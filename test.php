@@ -28,7 +28,7 @@ if ($_SESSION['qno'] == '') {
     }
 }
 
-$sql = "SELECT * FROM questions 
+$sql = "SELECT * FROM ".$_SESSION['data']['quiz_name']." 
 WHERE qid='" . $_SESSION['qno'] . "' ";
 $result = $conn->query($sql);
 
@@ -92,18 +92,21 @@ if ($result->num_rows > 0) {
 <body>
     <div id="profile">
         <img src="resource/image/profile.png">
-        <h1>Candidate Name:<?php echo $_SESSION['name'] ?></h1>
+        <h1>
+            Candidate Name:<?php echo $_SESSION['data']['username'] ?>
+        </h1>
+
 
     </div>
     <form action="" method="POST">
         <div class="nav_box">
             <input class="back" name="back" type="submit" value="back">
             <input class="next" name="next" type="submit" value="next">
-            <h1 id="nav_ques">Question<?php echo  $_SESSION['qno'] ?></h1>
+            <h1 id="nav_ques"> <?php echo $_SESSION['data']['quiz_name'] ?> :Question<?php echo  $_SESSION['qno'] ?></h1>
         </div>
     </form>
     <?php echo $html_queastion ?>
-<?php echo footer()?>
+    <?php echo footer() ?>
 </body>
 
 </html>

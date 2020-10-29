@@ -3,7 +3,7 @@
 include('../resource/config.php');
 include('../resource/footer.php');
 include('../resource/header.php');
-
+session_start();
 
 $errors = array();
 if (isset($_POST['submit'])) {
@@ -19,7 +19,7 @@ if (isset($_POST['submit'])) {
 
     ///////////////////insert/////////////////////////////
     if (sizeof($errors) == 0) {
-        $sql = "INSERT INTO questions (question,option_a,option_b,option_c,option_d,answer)VALUES
+        $sql = "INSERT INTO ".$_SESSION['admin_data']." (question,option_a,option_b,option_c,option_d,answer)VALUES
         ('" . $question . "', '" . $option_a . "', '" . $option_b . "', '" . $option_c . "', '" . $option_d . "', '" . $answer . "')";
 
         if ($conn->query($sql) === TRUE) {
@@ -38,8 +38,7 @@ head();
 <h1>Create Your Quiz</h1>
 <form action="" method="POST">
     <div class="container">
-        <label for="quiz_name">Quiz Name: <input type="text" name="quiz_name" required></label>
-        <input type="submit" name="Create">
+        <h1><?php echo $_SESSION['admin_data']?></h1>
 
         <textarea class="question" name="question"></textarea>
         <table>

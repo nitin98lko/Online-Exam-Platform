@@ -3,7 +3,7 @@
 include('../resource/config.php');
 include('../resource/footer.php');
 include('../resource/header.php');
-
+session_start();
 $errors = array();
 if (isset($_POST['create'])) {
     // sql to create quiz table
@@ -21,19 +21,20 @@ if (isset($_POST['create'])) {
 
     if ($conn->query($sql) === TRUE) {
         // echo "Table MyGuests created successfully";
-
         //inserting in quiz_list db
-       echo'features'. $nav_handler = isset($_POST['nav_handler']) ? $_POST['nav_handler'] : 'false';
+
+        $nav_handler = isset($_POST['nav_handler']) ? $_POST['nav_handler'] : 'false';
 
         $sql = "INSERT INTO quiz_list (quiz_name,feature)VALUES
         ('" . $quiz_name . "', '" . $nav_handler . "')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+            //echo "New record created successfully";
+            $_SESSION['admin_data']=$quiz_name;
+            header('Location:add.php');
         } else {
             echo "Error in inserting: " . $sql . "<br>" . $conn->error;
         }
-
     } else {
         echo "Error creating table: " . $conn->error;
     }

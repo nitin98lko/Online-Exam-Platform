@@ -25,7 +25,7 @@ session_start();
 </head>
 <body>
     <div id="container_center">
-    <h1><?php echo $_SESSION['name'] ?>,You have <?php echo $result ?></h1>
+    <h1><?php echo $_SESSION['data']['username'] ?>,You have <?php echo $result ?></h1>
     <h2>Your Score is <?php echo $_SESSION['points'] ?></h2>
     <img src="resource/image/<?php echo $image ?>">
     </div>

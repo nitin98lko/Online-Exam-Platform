@@ -1,11 +1,34 @@
 <?php
 session_start();
 include('resource/config.php');
+
 $message;
 $errors = array();
+// putting all quizes in the dropdown menu
+$sql = "SELECT * FROM quiz_list";
+$result = $conn->query($sql);
+
+$option = '<select name="dropdown" class="small-input">';
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+
+        $quiz_id = $row["quiz_id"];
+        $quiz_name = $row["quiz_name"];
+        $quiz_name = $row["quiz_name"];
+
+        $option .= '<option value=' . $quiz_name . '>' . $quiz_name . '</option>';
+
+    }
+}
+
+$option .= "</select>";
+
 if (isset($_POST['submit'])) {
+    
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
+    $dropdown = isset($_POST['dropdown']) ? $_POST['dropdown'] : '';
 
     if (sizeof($errors) == 0) {
         $sql = "SELECT * FROM users 
@@ -15,18 +38,38 @@ if (isset($_POST['submit'])) {
         if ($result->num_rows > 0) {
             // output data of each row
             while ($row = $result->fetch_assoc()) {
-                print_r($row);
-                $_SESSION['name'] = $username;
-                header('Location:test.php');
-                $_SESSION['userdata'] = array('username' => $username, 'user_id' => 'user_id');
-            }
+                $email = $row["email"];
+
+                //getting quiz details
+
+                $sql = "SELECT * FROM quiz_list 
+                 WHERE quiz_name='" . $dropdown . "'  ";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // output data of each row
+                    while ($row = $result->fetch_assoc()) {
+    
+                        $_SESSION['data'] = array(
+                            'username' => $username,
+                            'email' => $email,
+                            'quiz_id'=>$row["quiz_id"],
+                            'quiz_name'=>$row["quiz_name"],
+                            'feature'=>$row["feature"]
+                        );
+                    } //while quiz_list db fetch row
+                } else {
+                    echo "Error creating table: " . $conn->error;
+                }
+               header('Location:test.php');
+            } //while_users db fetch row
         } else {
-            //echo "0 results";
             $errors[] = array('inputs' => 'forms', 'msg' => 'invalid login');
         }
-        $conn->close();
-    }
-}
+         $conn->close();
+    }//sizeof($errors) == 0
+}//isset_submit
+print_r($_SESSION['data']);
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +83,9 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-
+<div class="header">
+    <h1></h1>
+</div>
     <div id="message">
         <?php echo $message; ?>
     </div>
@@ -61,6 +106,11 @@ if (isset($_POST['submit'])) {
         <p>
             <label for="password">Password: <input type="text" name="password" required></label>
         </p>
+        <p>
+            <label>Category<?php echo $option; ?></label>
+
+        </p>
+
         <p>
             <input type="submit" name="submit" value="Submit">
         </p>
