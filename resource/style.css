@@ -36,6 +36,8 @@ h1{
     color: hotpink;
     font-size: x-large;}
 #footer{
+    position:absolute;
+    bottom:0;
     padding: 2px;
     background-color: rgb(143, 143, 143);
 }

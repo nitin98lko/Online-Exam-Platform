@@ -1,8 +1,8 @@
 <?php
-
 include('../resource/config.php');
 include('../resource/footer.php');
 include('../resource/header.php');
+
 session_start();
 
 $errors = array();
@@ -32,11 +32,19 @@ if (isset($_POST['submit'])) {
     ///////////////////insert/////////////////////////////
 } //isset_submit
 $conn->close();
-head();
 ?>
-
-<h1>Create Your Quiz</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD Question</title>
+    <link rel="stylesheet" type="text/css" href="../resource/style.css" />
+</head>
+<body>
+<?php head();?>
 <form action="" method="POST">
+    
     <div class="container">
         <h1><?php echo $_SESSION['admin_data']?></h1>
 
@@ -60,6 +68,7 @@ head();
                     option D:<input name="option_d" class="option">
                 </td>
             </tr>
+
             <tr>
                 <p>
                     answer key:<input name="answer">
@@ -71,6 +80,6 @@ head();
 
     </div>
 </form>
-<?php
-echo footer();
-?>
+<?php echo footer();?>
+</body>
+</html>

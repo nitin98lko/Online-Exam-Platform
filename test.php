@@ -1,13 +1,17 @@
 <?php
 include('resource/config.php');
+include('resource/header.php');
 include('resource/footer.php');
+
 session_start();
 
+$_SESSION['response'][0] = array(
+    'qid' => "",
+    'response' => ""
+);
+
 $_SESSION['qno'];
-$_SESSION['points'];
-if ($_SESSION['points'] == '') {
-    $_SESSION['points'] = 0;
-}
+
 // getting qid
 if ($_SESSION['qno'] == '') {
     $_SESSION['qno'] = 1;
@@ -15,8 +19,8 @@ if ($_SESSION['qno'] == '') {
     if (isset($_POST['next'])) {
         $_SESSION['qno']++;
         //end of questions
-        if ($_SESSION['qno'] >= 10) {
-            $_SESSION['qno'] = 10;
+        if ($_SESSION['qno'] >= 5) {
+            $_SESSION['qno'] = 5;
         }
     }
     if (isset($_POST['back'])) {
@@ -27,8 +31,17 @@ if ($_SESSION['qno'] == '') {
         }
     }
 }
+//enable/disable navigation button
+$html_nav;
+if ($_SESSION['data']['feature'] == 'true') {
+    $html_nav = '
+        <input class="back" name="back" type="submit" value="back">
+        <input class="next" name="next" type="submit" value="next">
+     
+';
+}
 
-$sql = "SELECT * FROM ".$_SESSION['data']['quiz_name']." 
+$sql = "SELECT * FROM " . $_SESSION['data']['quiz_name'] . " 
 WHERE qid='" . $_SESSION['qno'] . "' ";
 $result = $conn->query($sql);
 
@@ -44,7 +57,6 @@ if ($result->num_rows > 0) {
         $option_d = $row["option_d"];
 
         $answer = $row["answer"];
-        $html_finish = '';
 
         $html_queastion .= '
         <form action="" method="POST">
@@ -57,25 +69,42 @@ if ($result->num_rows > 0) {
           </div>
           <input class="submit" name="submit" type="submit" value="Submit Response">
           <input id="finish" name="finish" type="submit" value="End Test">
-            ' . $html_finish . '
+           
         </form>';
 
-        $response = $_POST['option'];
-        if (isset($_POST['submit']) && $response != '') {
-            if ($answer == $response) {
-                $_SESSION['points'] = $_SESSION['points'] + 1;
-            }
+        $response = $_POST['option']; //sends the option clicked by examinee
+
+        if (isset($_POST['submit']) || $response != '' && $qid != '' && $response != '') {
+            $item = array(
+                'qid' => $qid,
+                'response' => $response
+            );
+            search_response($qid, $response);
             $_SESSION['qno']++;
         } //submit response
 
-        if (isset($_POST['finish'])) {
 
+        if (isset($_POST['finish'])) {
             header('Location:result.php');
         }
-
-        $_SESSION['points']; //show response
-
     } //while_row
+}
+
+function search_response($qid, $response)
+{
+    foreach ($_SESSION['response'] as $serialkey => $serialvalue) {
+        if ($qid == $serialvalue['qid'] && $_POST['back'] != 'back' && $_POST['next'] != 'next') {
+            $_SESSION['response'][$serialkey]['response'] = $response;
+            return 1;
+        }
+    }
+}
+
+search_response($qid, $response);
+
+if (search_response($qid, $response) != 1) {
+    global $item;
+    array_push($_SESSION['response'], $item);
 }
 //session_destroy();
 ?>
@@ -90,23 +119,20 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
+    <?php head();?>
     <div id="profile">
         <img src="resource/image/profile.png">
         <h1>
             Candidate Name:<?php echo $_SESSION['data']['username'] ?>
         </h1>
-
-
     </div>
     <form action="" method="POST">
         <div class="nav_box">
-            <input class="back" name="back" type="submit" value="back">
-            <input class="next" name="next" type="submit" value="next">
-            <h1 id="nav_ques"> <?php echo $_SESSION['data']['quiz_name'] ?> :Question<?php echo  $_SESSION['qno'] ?></h1>
+            <?php echo $html_nav; ?>
         </div>
+        <h1 id="nav_ques"> <?php echo $_SESSION['data']['quiz_name'] ?> :Question<?php echo  $_SESSION['qno'] ?></h1>
     </form>
     <?php echo $html_queastion ?>
-    <?php echo footer() ?>
-</body>
 
+</body>
 </html>

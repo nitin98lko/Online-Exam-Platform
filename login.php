@@ -1,6 +1,8 @@
 <?php
 session_start();
 include('resource/config.php');
+include('resource/header.php');
+include('resource/footer.php');
 
 $message;
 $errors = array();
@@ -18,7 +20,6 @@ if ($result->num_rows > 0) {
         $quiz_name = $row["quiz_name"];
 
         $option .= '<option value=' . $quiz_name . '>' . $quiz_name . '</option>';
-
     }
 }
 
@@ -69,27 +70,23 @@ if (isset($_POST['submit'])) {
          $conn->close();
     }//sizeof($errors) == 0
 }//isset_submit
-print_r($_SESSION['data']);
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="style.css">
-    <title>Index</title>
-</head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="resource/style.css" />
 
+</head>
 <body>
-<div class="header">
-    <h1></h1>
-</div>
+<?php head();?>
     <div id="message">
         <?php echo $message; ?>
     </div>
-
     <div id="errors">
         <?php if (sizeof($errors) > 0) :  ?>
             <ul>
@@ -108,13 +105,12 @@ print_r($_SESSION['data']);
         </p>
         <p>
             <label>Category<?php echo $option; ?></label>
-
         </p>
-
         <p>
             <input type="submit" name="submit" value="Submit">
         </p>
     </form>
+    <?php footer();?>
 </body>
 
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 include('../resource/config.php');
 include('../resource/footer.php');
 include('../resource/header.php');
@@ -30,7 +29,7 @@ if (isset($_POST['create'])) {
 
         if ($conn->query($sql) === TRUE) {
             //echo "New record created successfully";
-            $_SESSION['admin_data']=$quiz_name;
+            $_SESSION['admin_data'] = $quiz_name;
             header('Location:add.php');
         } else {
             echo "Error in inserting: " . $sql . "<br>" . $conn->error;
@@ -39,20 +38,33 @@ if (isset($_POST['create'])) {
         echo "Error creating table: " . $conn->error;
     }
     $conn->close();
-} //
+} 
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Create Your Quiz</h1>
-<form action="" method="POST">
-    <div class="container">
-        <label for="quiz_name">Quiz Name: <input type="text" name="quiz_name" required></label>
-        <div class="checkbox">
-            Enable Navigation Features : <input name="nav_handler" type="checkbox" value="true">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Quiz</title>
+    <link rel="stylesheet" type="text/css" href="../resource/style.css" />
+</head>
+
+<body>
+    <?php head();?>
+    <h1>Create Your Quiz</h1>
+    <form action="" method="POST">
+        <div class="container">
+            <label for="quiz_name">Quiz Name: <input type="text" name="quiz_name" required></label>
+            <div class="checkbox">
+                Enable Navigation Features : <input name="nav_handler" type="checkbox" value="true">
+            </div>
+            <input type="submit" name="create" value="create">
         </div>
-        <input type="submit" name="create" value="create">
+    </form>
+    <?php
+    echo footer();
+    ?>
+</body>
 
-    </div>
-</form>
-<?php
-echo footer();
-?>
+</html>

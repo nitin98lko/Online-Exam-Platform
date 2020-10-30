@@ -1,5 +1,8 @@
 <?php
 include('resource/config.php');
+include('resource/header.php');
+include('resource/footer.php');
+
 session_start();
 $errors = array();
 $message = '';
@@ -49,19 +52,19 @@ if (isset($_POST['login'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="style.css">
-    <title>Register</title>
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="resource/style.css" />
 </head>
-
 <body>
+    <?php head(); ?>
     <div id="message">
         <?php echo '<p>' . $message . '</p>'; ?>
     </div>
-
+    
     <div id="errors">
         <?php if (sizeof($errors) > 0) :  ?>
             <ul>
@@ -98,10 +101,10 @@ if (isset($_POST['login'])) {
                 <input type="submit" name="login" value="Login">
 
             </form>
-
-
         </div>
     </div>
+    <?php footer(); ?>
+
 </body>
 
 </html>
